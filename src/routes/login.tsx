@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toApiError } from "@/lib/api/errors";
+import { toUserMessage } from "@/lib/api/errors";
 import { useAuth } from "@/stores/auth";
 
 export const Route = createFileRoute("/login")({
@@ -43,7 +43,7 @@ function LoginPage() {
       await login({ email: email.trim(), password }, remember);
       await navigate({ to: "/dashboard" });
     } catch (cause) {
-      setError(toApiError(cause).message);
+      setError(toUserMessage(cause));
     } finally {
       setSubmitting(false);
     }
