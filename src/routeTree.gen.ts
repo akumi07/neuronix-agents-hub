@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated.activity'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated.tasks'
@@ -37,6 +38,11 @@ const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedActivityRoute = AuthenticatedActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
   id: '/agents',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/activity': typeof AuthenticatedActivityRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/activity': typeof AuthenticatedActivityRoute
   '/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/tasks': typeof AuthenticatedTasksRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/_authenticated/activity': typeof AuthenticatedActivityRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/activity'
     | '/agents'
     | '/dashboard'
     | '/tasks'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
+    | '/activity'
     | '/agents'
     | '/dashboard'
     | '/tasks'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/login'
     | '/register'
+    | '/_authenticated/activity'
     | '/_authenticated/agents'
     | '/_authenticated/dashboard'
     | '/_authenticated/tasks'
@@ -167,6 +179,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/activity': {
+      id: '/_authenticated/activity'
+      path: '/activity'
+      fullPath: '/activity'
+      preLoaderRoute: typeof AuthenticatedActivityRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/agents': {
       id: '/_authenticated/agents'
@@ -218,6 +237,7 @@ const AuthenticatedAgentsRouteWithChildren =
   AuthenticatedAgentsRoute._addFileChildren(AuthenticatedAgentsRouteChildren)
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
@@ -225,6 +245,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedActivityRoute: AuthenticatedActivityRoute,
   AuthenticatedAgentsRoute: AuthenticatedAgentsRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedTasksRoute: AuthenticatedTasksRoute,
