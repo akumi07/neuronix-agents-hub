@@ -76,12 +76,10 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   let response: Response;
   try {
-    response = await fetch(`${env.apiBaseUrl}${path}`, {
-      method: options.method ?? "GET",
-      headers,
-      signal: options.signal,
-      body: options.body === undefined ? undefined : JSON.stringify(options.body),
-    });
+    const init: RequestInit = { method: options.method ?? "GET", headers };
+    if (options.signal) init.signal = options.signal;
+    if (options.body !== undefined) init.body = JSON.stringify(options.body);
+    response = await fetch(`${env.apiBaseUrl}${path}`, init);
   } catch (cause) {
     if (cause instanceof Error && cause.name === "AbortError") throw cause;
     throw new ApiError({ status: 0, kind: "network", message: defaultMessage("network") });
