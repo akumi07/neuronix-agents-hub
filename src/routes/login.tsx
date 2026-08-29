@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toUserMessage } from "@/lib/api/errors";
+import { env } from "@/lib/env";
 import { useAuth } from "@/stores/auth";
 
 export const Route = createFileRoute("/login")({
@@ -62,6 +63,13 @@ function LoginPage() {
         </>
       }
     >
+      {env.isMockMode ? (
+        <p className="mb-4 rounded-md border border-warning/35 bg-warning/10 px-3 py-2 text-xs text-warning">
+          Demo mode — sign in with <span className="font-mono">akash@neuronix.ai</span> /{" "}
+          <span className="font-mono">neuronix2026</span>, or create any account.
+        </p>
+      ) : null}
+
       <form onSubmit={submit} className="space-y-4" noValidate>
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
