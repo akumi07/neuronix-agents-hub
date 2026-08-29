@@ -22,7 +22,7 @@ export function CommandPalette({
   const navigate = useNavigate();
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange} title="Quick actions">
+    <CommandDialog open={open} onOpenChange={onOpenChange}>
       <CommandInput placeholder="Jump to a page or start a task…" />
       <CommandList>
         <CommandEmpty>No matches.</CommandEmpty>
